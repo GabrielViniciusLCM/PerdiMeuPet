@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// import './tabs/ProfileTab.dart';
 
 void main() {
   runApp(FindMyPetApp());
@@ -9,7 +10,10 @@ class FindMyPetApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: HomeScreen(),
-      theme: ThemeData(primarySwatch: Colors.teal),
+      theme: ThemeData(
+        primarySwatch: Colors.teal,
+        primaryColor: Colors.teal,
+      ),
     );
   }
 }
@@ -56,25 +60,49 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: 3,
       child: Scaffold(
         appBar: AppBar(
           title: Text('FindMyPet'),
-          bottom: TabBar(
-            tabs: [
-              Tab(icon: Icon(Icons.pets), text: 'Feed'),
-              Tab(icon: Icon(Icons.favorite), text: 'Favoritos'),
-              Tab(icon: Icon(Icons.add), text: 'Adicionar'),
-              Tab(icon: Icon(Icons.person), text: 'Perfil'),
-            ],
-          ),
+          backgroundColor: Colors.teal,
+          actions: [IconButton(
+            icon:Icon(Icons.person, color: Colors.white),
+            onPressed: () {
+              // Show profile
+               Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProfileTab(),
+                ),
+              );
+            },
+          ),],
         ),
-        body: TabBarView(
-          children: [
-            FeedTab(),
-            FavoritesTab(),
-            AddPostTab(),
-            ProfileTab(),
+        body: Column(
+          children: <Widget> [
+            Expanded(
+              child: TabBarView(
+                children: [ 
+                  FeedTab(),
+                  AddPostTab(),
+                  FavoritesTab()
+                ],
+              ),
+            ),
+            Container(
+              color: Colors.teal,
+              child: const TabBar(
+                indicatorColor: Colors.amber,
+                labelColor: Colors.amber,
+                unselectedLabelColor: Colors.white60,
+                tabs: [
+                  Tab(icon: Icon(Icons.pets), text: 'Feed'),
+                  Tab(icon: Icon(Icons.add), text: 'Adicionar'),
+                  Tab(icon: Icon(Icons.favorite), text: 'Favoritos'),
+                  
+                ],
+              ),
+            )
           ],
         ),
       ),
@@ -188,18 +216,28 @@ class AddPostTab extends StatelessWidget {
   }
 }
 
+
 class ProfileTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CircleAvatar(radius: 50, child: Icon(Icons.person, size: 50)),
-          SizedBox(height: 10),
-          Text('Nome do Usuário', style: TextStyle(fontSize: 20)),
-          Text('usuario@email.com', style: TextStyle(color: Colors.grey)),
-        ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Perfil do Usuário'),
+        backgroundColor: Colors.teal,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              radius: 50,
+              child: Icon(Icons.person, size: 50),
+            ),
+            SizedBox(height: 10),
+            Text('Nome do Usuário', style: TextStyle(fontSize: 20)),
+            Text('usuario@email.com', style: TextStyle(color: Colors.grey)),
+          ],
+        ),
       ),
     );
   }
