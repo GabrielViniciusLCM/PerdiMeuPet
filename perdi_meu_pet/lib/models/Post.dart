@@ -1,17 +1,13 @@
 class Post {
-  Post({
-    required this.id,
-    required this.animalId,
-    required this.usuarioId,
-    required this.descricao,
-    required this.localizacao,
-    required this.dataPerda,
-  });
-
-  final String id;
-  final String animalId;
-  final String usuarioId;
+  final String nome;
   final String descricao;
   final String localizacao;
-  final DateTime dataPerda;
+  final String imageUrl;
+
+  Post({
+    required this.nome,
+    required this.descricao,
+    required this.localizacao,
+    required this.imageUrl,
+  });
 }
