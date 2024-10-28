@@ -2,10 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:perdi_meu_pet/models/Post.dart';
 import 'package:perdi_meu_pet/widgets/PostWidget.dart';
 import 'package:perdi_meu_pet/screens/HomeScreen.dart';
+import 'package:provider/provider.dart';
+import 'usuario_provider.dart';
 // import './tabs/ProfileTab.dart';
 
 void main() {
-  runApp(FindMyPetApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => UsuarioProvider(),
+      child: FindMyPetApp(),
+    ),
+  );
 }
 
 class FindMyPetApp extends StatelessWidget {
