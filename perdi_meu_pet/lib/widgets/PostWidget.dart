@@ -1,11 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:perdi_meu_pet/models/Post.dart';
 
-// Widget que representa cada post de pet
-class PostWidget extends StatelessWidget {
+class PostWidget extends StatefulWidget {
   final Post post;
+  final VoidCallback onFavoriteToggled; // Callback para notificar o pai
 
-  const PostWidget({Key? key, required this.post}) : super(key: key);
+  const PostWidget({
+    Key? key,
+    required this.post,
+    required this.onFavoriteToggled,
+  }) : super(key: key);
+
+  @override
+  _PostWidgetState createState() => _PostWidgetState();
+}
+
+class _PostWidgetState extends State<PostWidget> {
+  void _toggleFavorite() {
+    setState(() {
+      widget.post.isFavorite = !widget.post.isFavorite;
+    });
+    widget.onFavoriteToggled(); // Callback notifica o pai quando o favorito muda
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +35,7 @@ class PostWidget extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
               child: Image.network(
-                post.imageUrl,
+                widget.post.imageUrl,
                 width: 80,
                 height: 80,
                 fit: BoxFit.cover,
@@ -31,7 +47,7 @@ class PostWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    post.nome,
+                    widget.post.nome,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -39,7 +55,7 @@ class PostWidget extends StatelessWidget {
                   ),
                   SizedBox(height: 8),
                   Text(
-                    post.descricao,
+                    widget.post.descricao,
                     style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                   ),
                   SizedBox(height: 8),
@@ -47,7 +63,17 @@ class PostWidget extends StatelessWidget {
                     children: [
                       Icon(Icons.location_on, size: 16, color: Colors.teal),
                       SizedBox(width: 4),
-                      Text(post.localizacao),
+                      Text(widget.post.localizacao),
+                      Spacer(),
+                      IconButton(
+                        icon: Icon(
+                          widget.post.isFavorite
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          color: widget.post.isFavorite ? Colors.red : null,
+                        ),
+                        onPressed: _toggleFavorite,
+                      ),
                     ],
                   ),
                 ],

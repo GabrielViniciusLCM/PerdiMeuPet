@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:perdi_meu_pet/models/Post.dart';
-import 'package:perdi_meu_pet/screens/HomeScreen.dart'; // Ensure this import path is correct
+import 'package:perdi_meu_pet/screens/HomeScreen.dart';
 
 class AddPostTab extends StatefulWidget {
   @override
@@ -13,7 +13,6 @@ class _AddPostTabState extends State<AddPostTab> {
   final _localizacaoController = TextEditingController();
   String? _imageUrl;
 
-  // Function to handle adding a new post
   void _addPost() {
     if (_nomeController.text.isNotEmpty &&
         _descricaoController.text.isNotEmpty &&
@@ -27,10 +26,10 @@ class _AddPostTabState extends State<AddPostTab> {
       );
 
       setState(() {
-        mockPosts.add(newPost); // Add the post to the mock list
+        mockPosts.add(newPost); // Adiciona o novo post à lista mockada de posts
       });
 
-      // Clear fields and notify the user
+      // Limpa os campos de texto e a URL da imagem
       _nomeController.clear();
       _descricaoController.clear();
       _localizacaoController.clear();
@@ -46,11 +45,12 @@ class _AddPostTabState extends State<AddPostTab> {
     }
   }
 
-  // Method to simulate selecting an image
+
+  // Função para simular a escolha de uma imagem
   void _pickImage() {
     setState(() {
       _imageUrl =
-          'https://s3.animalia.bio/animals/photos/full/original/900px-koka-palawansk-mld-zoo-praha-1jpg.webp'; // Mocked image URL
+          'https://s3.animalia.bio/animals/photos/full/original/900px-koka-palawansk-mld-zoo-praha-1jpg.webp'; // URL de uma imagem de exemplo
     });
   }
 
