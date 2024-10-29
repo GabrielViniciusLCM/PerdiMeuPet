@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:perdi_meu_pet/widgets/PostWidget.dart';
 import 'package:perdi_meu_pet/models/Post.dart';
+import 'package:perdi_meu_pet/widgets/AddPostTab.dart';
+import 'package:perdi_meu_pet/widgets/FavoritesTab.dart';
+import 'package:perdi_meu_pet/widgets/FeedTab.dart';
+import 'package:perdi_meu_pet/widgets/ProfileTab.dart';
 
 // Mock de dados
 final List<Post> mockPosts = [
@@ -29,7 +32,6 @@ final List<Post> mockPosts = [
   ),
 ];
 
-// Tela principal com TabBarView
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -43,7 +45,6 @@ class HomeScreen extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.person, color: Colors.white),
               onPressed: () {
-                // Show profile
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -73,80 +74,7 @@ class HomeScreen extends StatelessWidget {
                   Tab(icon: Icon(Icons.favorite), text: 'Favoritos'),
                 ],
               ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// Widget de feed que usa o mock de posts
-class FeedTab extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: EdgeInsets.all(10),
-      itemCount: mockPosts.length,
-      itemBuilder: (context, index) {
-        return PostWidget(post: mockPosts[index]);
-      },
-    );
-  }
-}
-
-class FavoritesTab extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: Text('Seus posts favoritos aparecerão aqui.'));
-  }
-}
-
-class AddPostTab extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: [
-          TextField(
-            decoration: InputDecoration(labelText: 'Descrição do pet'),
-          ),
-          SizedBox(height: 10),
-          ElevatedButton(
-            onPressed: () {},
-            child: Text('Escolher imagem'),
-          ),
-          Spacer(),
-          ElevatedButton(
-            onPressed: () {},
-            child: Text('Publicar'),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class ProfileTab extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Perfil do Usuário'),
-        backgroundColor: Colors.teal,
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              radius: 50,
-              child: Icon(Icons.person, size: 50),
             ),
-            SizedBox(height: 10),
-            Text('Nome do Usuário', style: TextStyle(fontSize: 20)),
-            Text('usuario@email.com', style: TextStyle(color: Colors.grey)),
           ],
         ),
       ),
