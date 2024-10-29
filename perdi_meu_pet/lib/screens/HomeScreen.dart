@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:perdi_meu_pet/widgets/PostWidget.dart';
 import 'package:perdi_meu_pet/models/Post.dart';
+import 'package:perdi_meu_pet/widgets/AddPostTab.dart';
 
 // Mock de dados
 final List<Post> mockPosts = [
@@ -102,31 +103,31 @@ class FavoritesTab extends StatelessWidget {
   }
 }
 
-class AddPostTab extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: [
-          TextField(
-            decoration: InputDecoration(labelText: 'Descrição do pet'),
-          ),
-          SizedBox(height: 10),
-          ElevatedButton(
-            onPressed: () {},
-            child: Text('Escolher imagem'),
-          ),
-          Spacer(),
-          ElevatedButton(
-            onPressed: () {},
-            child: Text('Publicar'),
-          ),
-        ],
-      ),
-    );
-  }
-}
+// class AddPostTab extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.all(16.0),
+//       child: Column(
+//         children: [
+//           TextField(
+//             decoration: InputDecoration(labelText: 'Descrição do pet'),
+//           ),
+//           SizedBox(height: 10),
+//           ElevatedButton(
+//             onPressed: () {},
+//             child: Text('Escolher imagem'),
+//           ),
+//           Spacer(),
+//           ElevatedButton(
+//             onPressed: () {},
+//             child: Text('Publicar'),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 class ProfileTab extends StatelessWidget {
   @override
