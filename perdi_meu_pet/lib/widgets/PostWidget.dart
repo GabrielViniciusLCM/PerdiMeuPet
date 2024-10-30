@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:perdi_meu_pet/models/Post.dart';
+import 'package:perdi_meu_pet/usuario_provider.dart';
+import 'package:perdi_meu_pet/widgets/AddPostTab.dart';
+import 'package:provider/provider.dart';
 
 class PostWidget extends StatefulWidget {
   final Post post;
@@ -25,6 +28,7 @@ class _PostWidgetState extends State<PostWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final usuarioProvider = Provider.of<UsuarioProvider>(context);
     return Card(
       margin: EdgeInsets.symmetric(vertical: 8),
       child: Padding(
@@ -65,12 +69,14 @@ class _PostWidgetState extends State<PostWidget> {
                       SizedBox(width: 4),
                       Text(widget.post.localizacao),
                       Spacer(),
+
+                     if (usuarioProvider.isLoggedIn)
                       IconButton(
                         icon: Icon(
                           widget.post.isFavorite
                               ? Icons.favorite
                               : Icons.favorite_border,
-                          color: widget.post.isFavorite ? Colors.red : null,
+                          color: Colors.red,
                         ),
                         onPressed: _toggleFavorite,
                       ),
