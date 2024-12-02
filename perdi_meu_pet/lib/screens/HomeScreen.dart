@@ -43,7 +43,7 @@ class HomeScreen extends StatelessWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('FindMyPet'),
+          title: Text('Perdi Meu Pet'),
           backgroundColor: Colors.teal,
           actions: [
             IconButton(
