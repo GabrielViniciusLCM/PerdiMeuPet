@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:perdi_meu_pet/models/Post.dart';
+import 'package:perdi_meu_pet/models/Usuario.dart';
 import 'package:perdi_meu_pet/widgets/AddPostTab.dart';
 import 'package:perdi_meu_pet/widgets/FavoritesTab.dart';
 import 'package:perdi_meu_pet/widgets/FeedTab.dart';
-import 'package:perdi_meu_pet/widgets/ProfileTab.dart';
-import 'package:perdi_meu_pet/models/Usuario.dart';
 import 'package:provider/provider.dart';
-import 'package:perdi_meu_pet/usuario_provider.dart';
+
+import '../models/usuario_provider.dart';
 
 // Mock de dados
 final List<Post> mockPosts = [

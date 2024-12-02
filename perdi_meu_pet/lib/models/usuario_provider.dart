@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'models/Usuario.dart';
+import 'Usuario.dart';
 class UsuarioProvider with ChangeNotifier {
   Usuario? _usuario;
   // Lista de usuários mockados com senhas

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:perdi_meu_pet/screens/HomeScreen.dart';
 import 'package:provider/provider.dart';
-import 'usuario_provider.dart';
+import 'models/usuario_provider.dart';
 // import './tabs/ProfileTab.dart';
 
 void main() {
