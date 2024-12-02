@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/post.dart';
-import '../models/user_provider.dart';
+import '../domain/model/post.dart';
+import '../domain/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 
 class PostWidget extends StatefulWidget {
@@ -27,7 +27,7 @@ class _PostWidgetState extends State<PostWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final usuarioProvider = Provider.of<UsuarioProvider>(context);
+    final usuarioProvider = Provider.of<UserProvider>(context);
     return Card(
       margin: EdgeInsets.symmetric(vertical: 8),
       child: Padding(

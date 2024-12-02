@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import '../models/Post.dart';
-import '../models/user.dart';
+import 'package:provider/provider.dart';
+
+import '../domain/model/post.dart';
+import '../domain/provider/user_provider.dart';
 import '../widgets/add_post_tab.dart';
 import '../widgets/favorites_tab.dart';
 import '../widgets/feed_tab.dart';
-import 'package:provider/provider.dart';
-
-import '../models/user_provider.dart';
 
 // Mock de dados
 final List<Post> mockPosts = [
@@ -38,7 +37,7 @@ final List<Post> mockPosts = [
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final usuarioProvider = Provider.of<UsuarioProvider>(context);
+    final usuarioProvider = Provider.of<UserProvider>(context);
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -49,12 +48,13 @@ class HomeScreen extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.person, color: Colors.white),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ProfileTab(),
-                  ),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => ProfileTab(),
+                //   ),
+                // );
+                Navigator.of(context).pushNamed('/profile');
               },
             ),
           ],
@@ -86,74 +86,6 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-    class ProfileTab extends StatelessWidget {
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController senhaController = TextEditingController();
-    @override
-    Widget build(BuildContext context) {
-      final usuarioProvider = Provider.of<UsuarioProvider>(context);
-      return Scaffold(
-        appBar: AppBar(
-          title: Text('Perfil do Usuário'),
-          backgroundColor: Colors.teal,
-        ),
-        body: Center(child: usuarioProvider.isLoggedIn ? _buildUserProfile(usuarioProvider) : _buildLoginForm(usuarioProvider),
-        ),
-      );
-    }
-  Widget _buildLoginForm(UsuarioProvider usuarioProvider) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          TextField(
-            controller: emailController,
-            decoration: InputDecoration(labelText: 'Email'),
-          ),
-          TextField(
-            controller: senhaController,
-            decoration: InputDecoration(labelText: 'Senha'),
-            obscureText: true,
-          ),
-          SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              usuarioProvider.login(emailController.text, senhaController.text);
-            },
-            child: Text('Login'),
-          ),
-        ],
-      ),
-    );
-  }
-  Widget _buildUserProfile(UsuarioProvider usuarioProvider) {
-    User usuario = usuarioProvider.usuario!; // Obter usuário
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        CircleAvatar(
-          radius: 50,
-          child: Icon(Icons.person, size: 50),
-        ),
-        SizedBox(height: 10),
-        Text(usuario.nome, style: TextStyle(fontSize: 20)),
-        Text(usuario.email, style: TextStyle(color: Colors.grey)),
-        SizedBox(height: 20),
-        ElevatedButton(
-          onPressed: () {
-            usuarioProvider.logout(); // Chama o método de logout
-             // Volta para a tela anterior
-          },
-          child: Text('Sair'),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.red, // Cor do botão
-          ),
-        ),
-      ],
     );
   }
 }

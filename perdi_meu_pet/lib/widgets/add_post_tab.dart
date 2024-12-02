@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/Post.dart';
+import '../domain/model/post.dart';
 import '../screens/home_screen.dart';
 
 class AddPostTab extends StatefulWidget {
@@ -50,7 +50,7 @@ class _AddPostTabState extends State<AddPostTab> {
   void _pickImage() {
     setState(() {
       _imageUrl =
-          'https://s3.animalia.bio/animals/photos/full/original/900px-koka-palawansk-mld-zoo-praha-1jpg.webp'; // URL de uma imagem de exemplo
+          'https://blog.casadoprodutor.com.br/wp-content/uploads/2018/04/gatinho.jpg'; // URL de uma imagem de exemplo
     });
   }
 
