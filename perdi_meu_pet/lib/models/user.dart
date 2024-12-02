@@ -1,5 +1,5 @@
-class Usuario {
-  Usuario({
+class User {
+  User({
     required this.id,
     required this.nome,
     required this.email,

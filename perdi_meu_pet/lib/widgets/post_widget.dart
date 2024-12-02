@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:perdi_meu_pet/models/Post.dart';
-import 'package:perdi_meu_pet/models/usuario_provider.dart';
+import '../models/post.dart';
+import '../models/user_provider.dart';
 import 'package:provider/provider.dart';
 
 class PostWidget extends StatefulWidget {

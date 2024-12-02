@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:perdi_meu_pet/models/Post.dart';
-import 'package:perdi_meu_pet/screens/HomeScreen.dart';
+import '../models/Post.dart';
+import '../screens/home_screen.dart';
 
 class AddPostTab extends StatefulWidget {
   @override

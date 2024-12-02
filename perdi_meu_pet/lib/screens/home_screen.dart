@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:perdi_meu_pet/models/Post.dart';
-import 'package:perdi_meu_pet/models/Usuario.dart';
-import 'package:perdi_meu_pet/widgets/AddPostTab.dart';
-import 'package:perdi_meu_pet/widgets/FavoritesTab.dart';
-import 'package:perdi_meu_pet/widgets/FeedTab.dart';
+import '../models/Post.dart';
+import '../models/user.dart';
+import '../widgets/add_post_tab.dart';
+import '../widgets/favorites_tab.dart';
+import '../widgets/feed_tab.dart';
 import 'package:provider/provider.dart';
 
-import '../models/usuario_provider.dart';
+import '../models/user_provider.dart';
 
 // Mock de dados
 final List<Post> mockPosts = [
@@ -131,7 +131,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
   Widget _buildUserProfile(UsuarioProvider usuarioProvider) {
-    Usuario usuario = usuarioProvider.usuario!; // Obter usuário
+    User usuario = usuarioProvider.usuario!; // Obter usuário
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

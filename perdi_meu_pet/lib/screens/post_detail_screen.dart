@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:perdi_meu_pet/models/Post.dart';
+import '../models/Post.dart';
 
 class PostDetailScreen extends StatelessWidget {
   final Post post;
