@@ -17,6 +17,7 @@ class User {
     assert(username.length >= 5),
     assert(password.length >= 5),
     assert(phone.length >= 11),
+    assert(RegExp(r'^\d+$').hasMatch(phone)), // Check for digits only
     assert(email.contains('@')),
     assert(email.endsWith('.com'));
 

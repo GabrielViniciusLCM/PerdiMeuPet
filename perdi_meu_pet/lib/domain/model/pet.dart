@@ -2,39 +2,39 @@
 
 class Pet {
   final String name;        // nome do pet
+  final String userId;      // id do usuário que fez o post, ou seja, que perdeu o pet
   final String breed;       // raça do pet
   final String age;         // idade do pet
   final String description; // descrição do pet
   final String imageUrl;    // url da imagem do pet
-  final String userId;      // id do usuário que fez o post, ou seja, que perdeu o pet
   // final DateTime placedAt = DateTime.now();
   
   Pet({
     required this.name,
-    required this.breed,
-    required this.age,
-    required this.description,
-    required this.imageUrl,
     required this.userId,
+    this.breed        = '',
+    this.age          = '0',
+    this.description  = '',
+    this.imageUrl     = '',
   }):assert(name.isNotEmpty),
-    assert(breed.isNotEmpty),
+    assert(userId.isNotEmpty),
+    assert(name.length >= 5),
+    assert(userId.length >= 5),
+    // assert(breed.isNotEmpty),
     assert(age.isNotEmpty),
     assert(
       int.tryParse(age) != null && 
       int.tryParse(age)! >= 0 && 
       int.tryParse(age)! <= 100, 
       'Age must be a valid number between 0 and 100'
-    ),
-    assert(description.isNotEmpty),
-    assert(imageUrl.isNotEmpty),
-    assert(userId.isNotEmpty),
-    assert(name.length >= 5),
-    assert(breed.length >= 3),
-    assert(description.length >= 5),
-    assert(description.length <= 500),
-    assert(imageUrl.length >= 5),
-    assert(userId.length >= 5);
-  
+    );
+    // assert(description.isNotEmpty),
+    // assert(imageUrl.isNotEmpty),
+    // assert(breed.length >= 3),
+    // assert(description.length >= 5),
+    // assert(description.length <= 500),
+    // assert(imageUrl.length >= 5);
+
   Pet.fromJson(Map<String, dynamic> json):
     this.name        = json['name'],
     this.breed       = json['breed'],
