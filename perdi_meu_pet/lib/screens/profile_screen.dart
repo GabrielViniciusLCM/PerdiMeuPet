@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../domain/model/user.dart';
+// import '../domain/model/user.dart';
 import '../domain/provider/user_provider.dart';
 import 'register_screen.dart';
 

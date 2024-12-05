@@ -19,10 +19,12 @@ class _AddPostTabState extends State<AddPostTab> {
         _localizacaoController.text.isNotEmpty &&
         _imageUrl != null) {
       final newPost = Post(
-        nome: _nomeController.text,
+        // nome: _nomeController.text,
         descricao: _descricaoController.text,
         localizacao: _localizacaoController.text,
         imageUrl: _imageUrl!,
+        userId: '123456',
+        petId: '654321',
       );
 
       setState(() {

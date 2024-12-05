@@ -20,7 +20,7 @@ class PostWidget extends StatefulWidget {
 class _PostWidgetState extends State<PostWidget> {
   void _toggleFavorite() {
     setState(() {
-      widget.post.isFavorite = !widget.post.isFavorite;
+      // widget.post.isFavorite = !widget.post.isFavorite;
     });
     widget.onFavoriteToggled(); // Callback notifica o pai quando o favorito muda
   }
@@ -50,7 +50,8 @@ class _PostWidgetState extends State<PostWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.post.nome,
+                    // widget.post.nome,
+                    'Nome do pet',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -72,9 +73,10 @@ class _PostWidgetState extends State<PostWidget> {
                      if (usuarioProvider.isLoggedIn)
                       IconButton(
                         icon: Icon(
-                          widget.post.isFavorite
-                              ? Icons.favorite
-                              : Icons.favorite_border,
+                          // widget.post.isFavorite
+                          //     ? Icons.favorite
+                          //     : Icons.favorite_border,
+                          Icons.favorite_border,
                           color: Colors.red,
                         ),
                         onPressed: _toggleFavorite,

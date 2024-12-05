@@ -6,7 +6,8 @@ import '../screens/post_detail_screen.dart'; // Importa a tela de detalhes
 class FavoritesTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final favoritePosts = mockPosts.where((post) => post.isFavorite).toList();
+    // final favoritePosts = mockPosts.where((post) => post.isFavorite).toList();
+    final favoritePosts = mockPosts;
 
     if (favoritePosts.isEmpty) {
       return Center(child: Text('Nenhum post favoritado.'));
