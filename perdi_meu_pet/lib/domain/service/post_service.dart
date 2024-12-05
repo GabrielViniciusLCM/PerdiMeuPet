@@ -10,7 +10,6 @@ class PostService {
       Uri.parse('${Urls.BASE_URL}/posts.json'),
       body: json.encode(post),
     );
-
     if (response.statusCode == 200) {
       final id = json.decode(response.body)['name'];
       final Map<String, Post> postMap = {id: post};

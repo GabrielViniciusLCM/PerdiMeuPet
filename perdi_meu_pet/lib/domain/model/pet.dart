@@ -18,7 +18,7 @@ class Pet {
     this.imageUrl     = '',
   }):assert(name.isNotEmpty),
     assert(userId.isNotEmpty),
-    assert(name.length >= 5),
+    assert(name.length >= 3),
     assert(userId.length >= 5),
     // assert(breed.isNotEmpty),
     assert(age.isNotEmpty),

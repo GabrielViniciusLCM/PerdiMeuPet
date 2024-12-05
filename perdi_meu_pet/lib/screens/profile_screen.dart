@@ -67,7 +67,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
   Widget _buildUserProfile(UserProvider usuarioProvider) {
-    final user = usuarioProvider.user!; // Obter usuário
+    final user = usuarioProvider.user; // Obter usuário
     // // var usuario = UserProvider().user;
     // final name = usuario == null ? 'Nome' : usuario.username;
     // final email = usuario == null ? 'Email' : usuario.email;

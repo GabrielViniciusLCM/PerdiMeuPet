@@ -6,7 +6,9 @@ import '../model/user.dart';
 class UserProvider with ChangeNotifier {
   MapEntry<String, User> _user = MapEntry('', User(username: 'username', email: 'user@email.com', phone: '84999999999', password: 'password'));
 
-  User? get user => this._user.value;
+  User get user => this._user.value;
+
+  String get userId => this._user.key;
 
   Future<void> login(String email, String pass) async {
     try {
