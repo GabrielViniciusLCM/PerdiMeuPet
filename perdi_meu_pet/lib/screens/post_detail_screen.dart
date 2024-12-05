@@ -10,7 +10,8 @@ class PostDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(post.nome),
+        // title: Text(post.nome),
+        title: Text('Nome do pet'), // Nome do pet
         backgroundColor: Colors.teal, // Mesma cor da HomeScreen
       ),
       body: Padding(

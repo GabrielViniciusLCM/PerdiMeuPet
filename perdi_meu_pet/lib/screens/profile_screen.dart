@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../domain/model/user.dart';
+// import '../domain/model/user.dart';
 import '../domain/provider/user_provider.dart';
 import 'register_screen.dart';
 
@@ -67,7 +67,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
   Widget _buildUserProfile(UserProvider usuarioProvider) {
-    final user = usuarioProvider.user!; // Obter usuário
+    final user = usuarioProvider.user; // Obter usuário
     // // var usuario = UserProvider().user;
     // final name = usuario == null ? 'Nome' : usuario.username;
     // final email = usuario == null ? 'Email' : usuario.email;

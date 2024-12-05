@@ -47,11 +47,20 @@ class UserService {
     }
   }
 
-  static Future<MapEntry<String, User>> getUserByUsername (String username) async {
+  // static Future<MapEntry<String, User>> getUserByUsername (String username) async {
+  //   final users = await getUsers();
+
+  //   return users.entries.firstWhere(
+  //     (entry) => entry.value.username == username,
+  //     orElse: () => throw Exception('Usuário não encontrado'),
+  //   );
+  // }
+
+  static Future<MapEntry<String, User>> getUserByEmail (String email) async {
     final users = await getUsers();
 
     return users.entries.firstWhere(
-      (entry) => entry.value.username == username,
+      (entry) => entry.value.email == email,
       orElse: () => throw Exception('Usuário não encontrado'),
     );
   }

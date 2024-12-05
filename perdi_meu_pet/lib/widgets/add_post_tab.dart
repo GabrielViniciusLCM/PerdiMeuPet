@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:perdi_meu_pet/domain/service/pet_service.dart';
+import 'package:provider/provider.dart';
+import '../domain/model/pet.dart';
 import '../domain/model/post.dart';
+import '../domain/provider/user_provider.dart';
 import '../screens/home_screen.dart';
 
 class AddPostTab extends StatefulWidget {
@@ -13,16 +17,26 @@ class _AddPostTabState extends State<AddPostTab> {
   final _localizacaoController = TextEditingController();
   String? _imageUrl;
 
-  void _addPost() {
+  Future<void> _addPost() async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
     if (_nomeController.text.isNotEmpty &&
         _descricaoController.text.isNotEmpty &&
         _localizacaoController.text.isNotEmpty &&
         _imageUrl != null) {
+      
+      final newPet = Pet(
+        name: _nomeController.text,
+        userId: userProvider.userId,
+      );
+      final petMapEntry = await PetService.addPet(newPet);  
+
       final newPost = Post(
-        nome: _nomeController.text,
+        // nome: _nomeController.text,
         descricao: _descricaoController.text,
         localizacao: _localizacaoController.text,
         imageUrl: _imageUrl!,
+        userId: userProvider.userId,
+        petId: petMapEntry.key,
       );
 
       setState(() {
