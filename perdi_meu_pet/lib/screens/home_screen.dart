@@ -42,7 +42,21 @@ class HomeScreen extends StatelessWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('FindMyPet'),
+          title: const Row(
+            children: [
+              Icon(Icons.pets, color: Colors.amber), // Ícone de pata
+              SizedBox(width: 8),
+              Text(
+                'Perdi Meu Pet',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w700,
+                  fontFamily: 'Arial', // Alteração na fonte
+                  color: Colors.amber, // Mesma cor do ícone
+                ),
+              ),
+            ],
+          ),
           backgroundColor: Colors.teal,
           actions: [
             IconButton(

@@ -18,13 +18,15 @@ class PostDetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10.0), // Arredondar as bordas da imagem
-              child: Image.network(
-                post.imageUrl,
-                fit: BoxFit.cover,
-                height: 200, // Altura da imagem
-                width: double.infinity, // Largura da imagem
+            Center(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10.0), // Arredondar as bordas da imagem
+                child: Image.network(
+                  post.imageUrl,
+                  fit: BoxFit.cover,
+                  height: 200, // Altura da imagem
+                  width: double.infinity, // Largura da imagem
+                ),
               ),
             ),
             SizedBox(height: 16),
@@ -46,6 +48,53 @@ class PostDetailScreen extends StatelessWidget {
             Text(
               post.localizacao,
               style: TextStyle(fontSize: 16),
+            ),
+                        Spacer(), // Espaço flexível para empurrar os botões para baixo
+            Divider(thickness: 1),
+            Text(
+              'Comentários:',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.teal,
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: 3, // Mock para 3 comentários
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    leading: Icon(Icons.person, color: Colors.teal),
+                    title: Text('Usuário $index'),
+                    subtitle: Text('Comentário exemplo $index'),
+                  );
+                },
+              ),
+            ),
+            Divider(thickness: 1),
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: 'Adicione um comentário...',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 8),
+                ElevatedButton(
+                  onPressed: () {
+                    // Lógica mockada de adicionar comentário
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.teal,
+                  ),
+                  child: Icon(Icons.send, color: Colors.white),
+                ),
+              ],
             ),
           ],
         ),
