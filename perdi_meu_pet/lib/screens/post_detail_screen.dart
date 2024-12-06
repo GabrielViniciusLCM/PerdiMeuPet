@@ -21,7 +21,8 @@ class PostDetailScreen extends StatelessWidget {
           children: [
             Center(
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(10.0), // Arredondar as bordas da imagem
+                borderRadius: BorderRadius.circular(
+                    10.0), // Arredondar as bordas da imagem
                 child: Image.network(
                   post.imageUrl,
                   fit: BoxFit.cover,
@@ -33,7 +34,10 @@ class PostDetailScreen extends StatelessWidget {
             SizedBox(height: 16),
             Text(
               'Descrição:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.teal), // Estilo do título
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.teal), // Estilo do título
             ),
             SizedBox(height: 8),
             Text(
@@ -43,14 +47,17 @@ class PostDetailScreen extends StatelessWidget {
             SizedBox(height: 16),
             Text(
               'Localização:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.teal), // Estilo do título
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.teal), // Estilo do título
             ),
             SizedBox(height: 8),
             Text(
               post.localizacao,
               style: TextStyle(fontSize: 16),
             ),
-                        Spacer(), // Espaço flexível para empurrar os botões para baixo
+            Spacer(), // Espaço flexível para empurrar os botões para baixo
             Divider(thickness: 1),
             Text(
               'Comentários:',
