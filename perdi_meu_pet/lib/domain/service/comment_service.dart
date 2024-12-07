@@ -19,24 +19,20 @@ class CommentService {
     }
   }
 
-  /**
-   * Nessa implementação retorna todos os posts independentemente do id passado... Refatorar para corrigir
-   */
+  // Método para obter comentários filtrados por postId
   static Future<Map<String, Comment>> getCommentsByPostId(String postId) async {
-    final response = await http
-        .get(Uri.parse('${Urls.BASE_URL}/comments.json?postId=$postId'));
+    final response =
+        await http.get(Uri.parse('${Urls.BASE_URL}/comments.json'));
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
-
-      // Verifique se a resposta contém dados
-      if (data.isEmpty) {
-        return {};
-      }
-
       final Map<String, Comment> commentMap = {};
-      data.forEach((commentId, commentData) {
-        commentMap[commentId] = Comment.fromJson(commentData);
+
+      data.forEach((key, value) {
+        // Verifica se o comentário tem o mesmo postId que o post em questão
+        if (value['postId'] == postId) {
+          commentMap[key] = Comment.fromJson(value);
+        }
       });
 
       return commentMap;

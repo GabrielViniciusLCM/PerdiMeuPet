@@ -10,24 +10,23 @@ class FeedTab extends StatelessWidget {
   Widget build(BuildContext context) {
     // Usando FutureBuilder para lidar com a busca assíncrona de postagens
     return FutureBuilder<Map<String, Post>>(
-      future: PostService.getPosts(), // Fetch posts using the PostService
+      future: PostService.getPosts(), // Obtém as postagens através do serviço
       builder: (context, snapshot) {
         // Checa estado da conexão
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
-              child:
-                  CircularProgressIndicator()); // Mostrar indicador de carregamento durante a busca
-        } else if (snapshot.hasError) {
-          return Center(
-              child: Text(
-                  'Erro: ${snapshot.error}')); // Mostrar erro se a busca falhar
+              child: CircularProgressIndicator()); // Indicador de carregamento
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return Center(
               child: Text(
-                  'Nenhum post encontrado.')); // Mostrar mensagem se nenhuma postagem for encontrada
+                  'Nenhum post encontrado.')); // Exibe mensagem quando não houver dados
+        } else if (snapshot.hasError) {
+          return Center(
+              child: Text(
+                  'Erro: ${snapshot.error}')); // Exibe erro se a busca falhar
         }
 
-        // Depois que os dados forem carregados, extrai as postagens do mapa
+        // Extrai as postagens do mapa retornado
         final posts = snapshot.data!.values.toList();
 
         return ListView.builder(
@@ -49,8 +48,10 @@ class FeedTab extends StatelessWidget {
               child: PostWidget(
                 post: post,
                 onFavoriteToggled: () {
-                  // Aciona a atualização da UI quando o status de favorito de um post muda
-                  (context as Element).markNeedsBuild();
+                  // Atualiza a UI quando o status de favorito do post muda
+                  // Você pode adicionar lógica aqui para salvar no banco de dados ou em estado local
+                  (context as Element)
+                      .markNeedsBuild(); // Reconstroi a interface
                 },
               ),
             );

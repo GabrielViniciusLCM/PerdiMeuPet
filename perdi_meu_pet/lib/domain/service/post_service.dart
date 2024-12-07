@@ -4,7 +4,6 @@ import '../../utils/urls.dart';
 import '../model/post.dart';
 
 class PostService {
-
   static Future<Map<String, Post>> addPost(Post post) async {
     final response = await http.post(
       Uri.parse('${Urls.BASE_URL}/posts.json'),
@@ -21,12 +20,16 @@ class PostService {
 
   static Future<Map<String, Post>> getPosts() async {
     final response = await http.get(Uri.parse('${Urls.BASE_URL}/posts.json'));
+
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
       final Map<String, Post> postMap = {};
+
       data.forEach((key, value) {
-        postMap[key] = Post.fromJson(value);
+        postMap[key] = Post.fromJson(value, id: key);
       });
+      
+      print(postMap);
       return postMap;
     } else {
       throw Exception('Erro ao buscar posts');
@@ -34,11 +37,13 @@ class PostService {
   }
 
   static Future<Map<String, Post>> getPostById(String id) async {
-    final response = await http.get(Uri.parse('${Urls.BASE_URL}/posts/$id.json'));
+    final response =
+        await http.get(Uri.parse('${Urls.BASE_URL}/posts/$id.json'));
 
     if (response.statusCode == 200) {
+      final String idPost = json.decode(response.body)['name'];
       final Map<String, dynamic> data = json.decode(response.body);
-      final Map<String, Post> postMap = {id: Post.fromJson(data)};
+      final Map<String, Post> postMap = {id: Post.fromJson(data, id: idPost)};
       return postMap;
     } else {
       throw Exception('Erro ao buscar post');

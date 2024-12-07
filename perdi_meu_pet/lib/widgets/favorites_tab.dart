@@ -17,15 +17,14 @@ class FavoritesTab extends StatelessWidget {
           return Center(
               child:
                   CircularProgressIndicator()); // Mostrar indicador de carregamento durante a busca
-        } else if (snapshot.hasError) {
-          return Center(
-              child: Text(
-                  'Erro: ${snapshot.error}')); // Mostrar erro se a busca falhar
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return Center(
               child: Text(
                   'Nenhum post favoritado.')); // Mostrar mensagem se nenhuma postagem for encontrada
-
+        } else if (snapshot.hasError) {
+          return Center(
+              child: Text(
+                  'Erro: ${snapshot.error}')); // Mostrar erro se a busca falhar
         }
 
         // Depois que os dados forem carregados, extrai as postagens do mapa

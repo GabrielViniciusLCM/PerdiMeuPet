@@ -1,5 +1,6 @@
 // ignore_for_file: unnecessary_this
 class Post {
+  String id;
   final String descricao; // descrição do post
   final String
       localizacao; // localização do pet, onde foi visto pela última vez
@@ -9,6 +10,7 @@ class Post {
   final DateTime placedAt; // data e hora do post
 
   Post({
+    this.id = '',
     required this.descricao,
     required this.localizacao,
     required this.imageUrl,
@@ -26,7 +28,7 @@ class Post {
         assert(userId.length >= 5),
         assert(petId.length >= 5);
 
-  Post.fromJson(Map<String, dynamic> json)
+  Post.fromJson(Map<String, dynamic> json, {required this.id})
       : this.descricao = json['descricao'],
         this.localizacao = json['localizacao'],
         this.imageUrl = json['imageUrl'],
@@ -37,6 +39,7 @@ class Post {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': this.id,
       'descricao': this.descricao,
       'localizacao': this.localizacao,
       'imageUrl': this.imageUrl,
@@ -49,6 +52,7 @@ class Post {
   @override
   String toString() {
     return '''Post{
+      \n\tid: ${this.id},
       \n\tdescricao: ${this.descricao},
       \n\tlocalizacao: ${this.localizacao},
       \n\timageUrl: ${this.imageUrl},
