@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:perdi_meu_pet/domain/model/comment.dart';
 import 'package:perdi_meu_pet/domain/provider/user_provider.dart';
 import 'package:perdi_meu_pet/domain/service/comment_service.dart';
+import 'package:perdi_meu_pet/domain/service/pet_service.dart';
 import 'package:perdi_meu_pet/domain/service/user_service.dart';
 import 'package:provider/provider.dart';
 import '../domain/model/post.dart';
@@ -72,7 +73,20 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Nome do pet'),
+        title: FutureBuilder<String>(
+          future: PetService.getPetNameById(widget.post.petId), // Espera o nome do pet ser carregado
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Text('...');
+            }
+
+            if (snapshot.hasError) {
+              return Text('Erro ao carregar nome do pet');
+            }
+
+            return Text(snapshot.data ?? 'Nome do pet');
+          },
+        ),
         backgroundColor: Colors.teal,
       ),
       body: Padding(
@@ -158,7 +172,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                               ConnectionState.waiting) {
                             return ListTile(
                               leading: Icon(Icons.person, color: Colors.teal),
-                              title: Text('Carregando...'),
+                              title: Text('...'),
                               subtitle: Text(comment.content),
                             );
                           }

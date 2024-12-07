@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:perdi_meu_pet/domain/service/pet_service.dart';
 import '../domain/model/post.dart';
 import '../domain/provider/user_provider.dart';
 import 'package:provider/provider.dart';
@@ -22,18 +23,21 @@ class _PostWidgetState extends State<PostWidget> {
     setState(() {
       // widget.post.isFavorite = !widget.post.isFavorite;
     });
-    widget.onFavoriteToggled(); // Callback notifica o pai quando o favorito muda
+    widget
+        .onFavoriteToggled(); // Callback notifica o pai quando o favorito muda
   }
 
   @override
   Widget build(BuildContext context) {
     final usuarioProvider = Provider.of<UserProvider>(context);
+
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8.0),
-        border: Border.all(color: Colors.grey.shade300, width: 1), // Borda cinza clara
+        border: Border.all(
+            color: Colors.grey.shade300, width: 1), // Borda cinza clara
         boxShadow: [
           BoxShadow(
             color: Colors.black12,
@@ -63,14 +67,43 @@ class _PostWidgetState extends State<PostWidget> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    // widget.post.nome,
-                    'Nome do pet',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.teal,
-                    ),
+                  // Usando FutureBuilder para buscar o nome do pet
+                  FutureBuilder<String>(
+                    future: PetService.getPetNameById(widget.post.petId),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Text(
+                          '...',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.teal,
+                          ),
+                        );
+                      }
+
+                      if (snapshot.hasError) {
+                        return Text(
+                          'Erro ao carregar nome do pet',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.teal,
+                          ),
+                        );
+                      }
+
+                      String petName = snapshot.data ??
+                          'Nome do pet'; // Se não encontrar, exibe "Nome do pet"
+                      return Text(
+                        petName,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.teal,
+                        ),
+                      );
+                    },
                   ),
                   SizedBox(height: 8),
                   Text(
@@ -94,17 +127,17 @@ class _PostWidgetState extends State<PostWidget> {
                       ),
                       Spacer(),
 
-                     if (usuarioProvider.isLoggedIn)
-                      IconButton(
-                        icon: Icon(
-                          // widget.post.isFavorite
-                          //     ? Icons.favorite
-                          //     : Icons.favorite_border,
-                          Icons.favorite_border,
-                          color: Colors.red,
+                      if (usuarioProvider.isLoggedIn)
+                        IconButton(
+                          icon: Icon(
+                            // widget.post.isFavorite
+                            //     ? Icons.favorite
+                            //     : Icons.favorite_border,
+                            Icons.favorite_border,
+                            color: Colors.red,
+                          ),
+                          onPressed: _toggleFavorite,
                         ),
-                        onPressed: _toggleFavorite,
-                      ),
                     ],
                   ),
                 ],

@@ -18,6 +18,20 @@ class PetService {
     }
   }
 
+  static Future<Map<String, Pet>> getPetById(String id) async {
+    final response =
+        await http.get(Uri.parse('${Urls.BASE_URL}/pets/$id.json'));
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(response.body);
+      final Map<String, Pet> userMap = {id: Pet.fromJson(data)};
+
+      return userMap;
+    } else {
+      throw Exception('Erro ao buscar pet');
+    }
+  }
+
   static Future<MapEntry<String, Pet>> addPet(Pet pet) async {
     final response = await http.post(
       Uri.parse('${Urls.BASE_URL}/pets.json'),
@@ -29,6 +43,18 @@ class PetService {
       return petMap;
     } else {
       throw Exception('Failed to add pet');
+    }
+  }
+
+  // Função para buscar o nome do pet com base no ID
+  static Future<String> getPetNameById(String petId) async {
+    try {
+      Map<String, Pet> petMap = await PetService.getPetById(petId);
+      Pet pet = petMap[petId]!;
+
+      return pet.name;
+    } catch (e) {
+      throw Exception('Erro ao buscar nome do pet: $e');
     }
   }
 }
