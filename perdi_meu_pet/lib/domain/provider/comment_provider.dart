@@ -34,10 +34,10 @@ class CommentProvider extends ChangeNotifier {
   // Função para adicionar um comentário
   Future<void> addComment(Comment newComment) async {
     try {
-      Map<String, Comment> commentMap =
+      Map<String, Comment> addedComment =
           await CommentService.addComment(newComment);
 
-      _comments[commentMap.keys.first] = newComment;
+      _comments[addedComment.keys.first] = newComment;
 
       notifyListeners();
     } catch (e) {
