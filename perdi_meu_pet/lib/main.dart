@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:perdi_meu_pet/domain/provider/post_provider.dart';
+import 'package:perdi_meu_pet/screens/my_pet_screen.dart';
 import 'package:perdi_meu_pet/screens/profile_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -28,8 +30,11 @@ class FindMyPetApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UserProvider()), 
         ChangeNotifierProxyProvider<UserProvider, PetProvider>(
           create: (_) => PetProvider(UserProvider()),
-          update: (_, userProvider, previousPetProvider) =>
-              PetProvider(userProvider),
+          update: (_, userProvider, previousPetProvider) => PetProvider(userProvider),
+        ),
+        ChangeNotifierProxyProvider(
+          create: (_) => PostProvider(), 
+          update: (_, userProvider, previousPostProvider) => PostProvider(),
         ),
       ],
       child: MaterialApp(
@@ -40,6 +45,7 @@ class FindMyPetApp extends StatelessWidget {
         home: HomeScreen(),
         routes: {
           AppRoutes.PROFILE: (ctx) => ProfileScreen(),
+          AppRoutes.MY_PETS: (ctx) => MyPetsScreen(),
         }
       ),
     );

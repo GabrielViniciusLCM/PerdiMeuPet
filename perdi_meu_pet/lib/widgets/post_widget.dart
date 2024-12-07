@@ -64,8 +64,7 @@ class _PostWidgetState extends State<PostWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    // widget.post.nome,
-                    'Nome do pet',
+                    widget.post.nome,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:perdi_meu_pet/utils/app_routes.dart';
 import 'package:provider/provider.dart';
-import '../domain/model/post.dart';
 import '../domain/provider/user_provider.dart';
 
 import '../widgets/add_post_tab.dart';
 import '../widgets/favorites_tab.dart';
 import '../widgets/feed_tab.dart';
-import 'my_pet_screen.dart';
 
 // Mock de dados
 
@@ -30,32 +29,32 @@ import 'my_pet_screen.dart';
 //   ),
 // ];
 
-final List<Post> mockPosts = [
-  Post(
-    // nome: 'Mia',
-    descricao:  'Gatinha branca e muito carinhosa, desapareceu ontem.',
-    localizacao:'Bairro Jardim Paulista',
-    imageUrl:   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpiJmZoJ_y-zMy5ke5RAw14AZj9dIREUxFCA&s',
-    userId:    '123456',
-    petId:     '654321',
-  ),
-  Post(
-    // nome: 'Simba',
-    descricao:  'Gato laranja, adora brincar na rua. Foi visto pela última vez perto da praça.',
-    localizacao:'Bairro Pinheiros',
-    imageUrl:   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_tk6y1IbTI65cDl8Us1qcnRY_XUj1iMfr1w&s',
-    userId:     '123456',
-    petId:      '654321',
-  ),
-  Post(
-    // nome: 'Luna',
-    descricao:  'Gata cinza, muito tímida. Por favor, ajude-nos a encontrá-la!',
-    localizacao:'Centro',
-    imageUrl:   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRK_iz_E5w6MEQwWr9Sx4nfK7yW_F4saX4wg&s',
-    userId:     '123456',
-    petId:      '654321',
-  ),
-];
+// final List<Post> mockPosts = [
+//   Post(
+//     // nome: 'Mia',
+//     descricao:  'Gatinha branca e muito carinhosa, desapareceu ontem.',
+//     localizacao:'Bairro Jardim Paulista',
+//     imageUrl:   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpiJmZoJ_y-zMy5ke5RAw14AZj9dIREUxFCA&s',
+//     userId:    '123456',
+//     petId:     '654321',
+//   ),
+//   Post(
+//     // nome: 'Simba',
+//     descricao:  'Gato laranja, adora brincar na rua. Foi visto pela última vez perto da praça.',
+//     localizacao:'Bairro Pinheiros',
+//     imageUrl:   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_tk6y1IbTI65cDl8Us1qcnRY_XUj1iMfr1w&s',
+//     userId:     '123456',
+//     petId:      '654321',
+//   ),
+//   Post(
+//     // nome: 'Luna',
+//     descricao:  'Gata cinza, muito tímida. Por favor, ajude-nos a encontrá-la!',
+//     localizacao:'Centro',
+//     imageUrl:   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRK_iz_E5w6MEQwWr9Sx4nfK7yW_F4saX4wg&s',
+//     userId:     '123456',
+//     petId:      '654321',
+//   ),
+// ];
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -91,7 +90,7 @@ class HomeScreen extends StatelessWidget {
                 //     builder: (context) => ProfileTab(),
                 //   ),
                 // );
-                Navigator.of(context).pushNamed('/profile');
+                Navigator.of(context).pushNamed(AppRoutes.PROFILE);
               },
             ),
           ],
@@ -125,9 +124,10 @@ class HomeScreen extends StatelessWidget {
                     leading: const Icon(Icons.pets),
                     title: const Text("My Pets"),
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => MyPetsScreen(),
-                      ));
+                      // Navigator.of(context).push(MaterialPageRoute(
+                      //   builder: (context) => MyPetsScreen(),
+                      // ));
+                      Navigator.of(context).pushNamed(AppRoutes.MY_PETS);
                     },
                   ),
               const Divider(),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../screens/home_screen.dart';
+import '../domain/model/post.dart';
 import 'post_widget.dart';
 import '../screens/post_detail_screen.dart'; // Importa a tela de detalhes
 
@@ -7,7 +7,8 @@ class FavoritesTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final favoritePosts = mockPosts.where((post) => post.isFavorite).toList();
-    final favoritePosts = mockPosts;
+    // final favoritePosts = mockPosts
+    final favoritePosts = <Post>[]; // Inicializa a lista de posts favoritos
 
     if (favoritePosts.isEmpty) {
       return Center(child: Text('Nenhum post favoritado.'));
