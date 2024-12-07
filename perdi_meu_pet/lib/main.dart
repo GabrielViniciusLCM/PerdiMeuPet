@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '/utils/app_routes.dart';
 import '../screens/home_screen.dart';
+import 'domain/provider/pet_provider.dart';
 import 'domain/provider/user_provider.dart';
 // import './tabs/ProfileTab.dart';
 
@@ -24,7 +25,12 @@ class FindMyPetApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()), 
+        ChangeNotifierProxyProvider<UserProvider, PetProvider>(
+          create: (_) => PetProvider(UserProvider()),
+          update: (_, userProvider, previousPetProvider) =>
+              PetProvider(userProvider),
+        ),
       ],
       child: MaterialApp(
         theme: ThemeData(

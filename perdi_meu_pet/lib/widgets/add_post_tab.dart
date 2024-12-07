@@ -27,6 +27,10 @@ class _AddPostTabState extends State<AddPostTab> {
       final newPet = Pet(
         name: _nomeController.text,
         userId: userProvider.userId,
+        breed: 'vira-lata',
+        age: '1',
+        description: _descricaoController.text,
+        imageUrl: _imageUrl!,
       );
       final petMapEntry = await PetService.addPet(newPet);  
 
