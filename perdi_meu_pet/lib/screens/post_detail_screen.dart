@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:perdi_meu_pet/domain/model/comment.dart';
 import 'package:perdi_meu_pet/domain/provider/user_provider.dart';
 import 'package:perdi_meu_pet/domain/service/comment_service.dart';
+import 'package:perdi_meu_pet/domain/service/user_service.dart';
 import 'package:provider/provider.dart';
 import '../domain/model/post.dart';
 
@@ -147,10 +148,39 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                     itemCount: comments.length,
                     itemBuilder: (context, index) {
                       final comment = comments.values.toList()[index];
-                      return ListTile(
-                        leading: Icon(Icons.person, color: Colors.teal),
-                        title: Text('Usuário ${index + 1}'),
-                        subtitle: Text(comment.content),
+
+                      // Chama o método para buscar o nome do usuário
+                      return FutureBuilder<String>(
+                        future: UserService.getUserNameById(comment
+                            .userId), // Passando o ID do usuário do comentário
+                        builder: (context, userSnapshot) {
+                          if (userSnapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return ListTile(
+                              leading: Icon(Icons.person, color: Colors.teal),
+                              title: Text('Carregando...'),
+                              subtitle: Text(comment.content),
+                            );
+                          }
+
+                          if (userSnapshot.hasError) {
+                            return ListTile(
+                              leading: Icon(Icons.person, color: Colors.teal),
+                              title: Text('Erro ao carregar nome do usuário'),
+                              subtitle: Text(comment.content),
+                            );
+                          }
+
+                          String userName =
+                              userSnapshot.data ?? 'Usuário desconhecido';
+
+                          return ListTile(
+                            leading: Icon(Icons.person, color: Colors.teal),
+                            title: Text(userName), // Nome do usuário
+                            subtitle:
+                                Text(comment.content), // Conteúdo do comentário
+                          );
+                        },
                       );
                     },
                   ),

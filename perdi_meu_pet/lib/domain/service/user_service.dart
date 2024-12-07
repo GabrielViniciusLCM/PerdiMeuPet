@@ -1,11 +1,11 @@
 import 'dart:convert';
+
 import '../../utils/urls.dart';
 import '../model/user.dart';
 import 'package:http/http.dart' as http;
 
 class UserService {
-
-  static Future<Map<String, User>> addUser (User user) async {
+  static Future<Map<String, User>> addUser(User user) async {
     final response = await http.post(
       Uri.parse('${Urls.BASE_URL}/users.json'),
       body: json.encode(user),
@@ -35,15 +35,29 @@ class UserService {
   }
 
   static Future<Map<String, User>> getUserById(String id) async {
-    final response = await http.get(Uri.parse('${Urls.BASE_URL}/users/$id.json'));
+    final response =
+        await http.get(Uri.parse('${Urls.BASE_URL}/users/$id.json'));
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
       // this._userMap[id] = User.fromJson(data
       final Map<String, User> userMap = {id: User.fromJson(data)};
+
       return userMap;
     } else {
       throw Exception('Erro ao buscar usuário');
+    }
+  }
+
+  // Função para buscar o nome do usuário com base no ID
+  static Future<String> getUserNameById(String userId) async {
+    try {
+      Map<String, User> userMap = await UserService.getUserById(userId);
+      User user = userMap[userId]!;
+
+      return user.username;
+    } catch (e) {
+      throw Exception('Erro ao buscar nome do usuário: $e');
     }
   }
 
@@ -56,7 +70,7 @@ class UserService {
   //   );
   // }
 
-  static Future<MapEntry<String, User>> getUserByEmail (String email) async {
+  static Future<MapEntry<String, User>> getUserByEmail(String email) async {
     final users = await getUsers();
 
     return users.entries.firstWhere(
