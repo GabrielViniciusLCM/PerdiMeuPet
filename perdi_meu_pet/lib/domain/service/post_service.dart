@@ -44,6 +44,4 @@ class PostService {
       throw Exception('Erro ao buscar post');
     }
   }
-
-  
 }

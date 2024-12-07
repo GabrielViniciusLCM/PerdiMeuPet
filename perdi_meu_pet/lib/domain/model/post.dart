@@ -32,8 +32,8 @@ class Post {
         this.imageUrl = json['imageUrl'],
         this.userId = json['userId'],
         this.petId = json['petId'],
-        this.placedAt = DateTime.parse(
-            json['placedAt']); // Retorna string no padrão ISO 8601 para o DateTime
+        this.placedAt = DateTime.parse(json[
+            'placedAt']); // Retorna string no padrão ISO 8601 para o DateTime
 
   Map<String, dynamic> toJson() {
     return {
