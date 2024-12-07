@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:perdi_meu_pet/domain/model/comment.dart';
 import 'package:perdi_meu_pet/domain/provider/user_provider.dart';
-import 'package:perdi_meu_pet/domain/service/comment_service.dart';
 import 'package:perdi_meu_pet/domain/service/pet_service.dart';
 import 'package:perdi_meu_pet/domain/service/user_service.dart';
+import 'package:perdi_meu_pet/domain/provider/comment_provider.dart';
 import 'package:provider/provider.dart';
 import '../domain/model/post.dart';
 
@@ -17,50 +17,42 @@ class PostDetailScreen extends StatefulWidget {
 }
 
 class _PostDetailScreenState extends State<PostDetailScreen> {
-  late Future<Map<String, Comment>> _commentsFuture;
   final TextEditingController _commentController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    // Busca os comentários especificamente relacionados ao post atual
-    _commentsFuture = CommentService.getCommentsByPostId(
-        widget.post.id); // Obtém os comentários filtrados pelo postId
+    // Carregar os comentários ao inicializar a tela
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final commentProvider = Provider.of<CommentProvider>(context, listen: false);
+      commentProvider.loadComments(widget.post.id);
+    });
   }
 
   // Função para adicionar um novo comentário
   void _addComment() async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final commentProvider = Provider.of<CommentProvider>(context, listen: false);
 
     if (_commentController.text.isNotEmpty && userProvider.isLoggedIn) {
       Comment newComment = Comment(
-        postId: widget.post.id, // Associa o comentário ao post específico
+        postId: widget.post.id,
         content: _commentController.text,
-        userId: userProvider.userId, // Usa o ID do usuário logado
+        userId: userProvider.userId,
       );
 
       try {
-        // Adicionando o comentário através do serviço
-        Map<String, Comment> newCommentMap =
-            await CommentService.addComment(newComment);
+        await commentProvider.addComment(newComment);
 
-        // Se o comentário for adicionado com sucesso, atualiza a interface
-        setState(() {
-          _commentsFuture = CommentService.getCommentsByPostId(widget
-              .post.id); // Busca os comentários atualizados para este post
-          _commentController.clear(); // Limpa o campo de texto
-        });
-
-        // Opcionalmente exibe uma mensagem de sucesso
+        // Limpar o campo de texto após adicionar o comentário
+        _commentController.clear();
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Comentário adicionado com sucesso!')));
       } catch (e) {
-        // Exibe uma mensagem de erro caso algo dê errado
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Erro ao adicionar comentário: $e')));
       }
     } else if (!userProvider.isLoggedIn) {
-      // Se o usuário não estiver logado, exibe uma mensagem
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content:
               Text('Você precisa estar logado para adicionar um comentário.')));
@@ -74,16 +66,14 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
     return Scaffold(
       appBar: AppBar(
         title: FutureBuilder<String>(
-          future: PetService.getPetNameById(widget.post.petId), // Espera o nome do pet ser carregado
+          future: PetService.getPetNameById(widget.post.petId),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Text('...');
             }
-
             if (snapshot.hasError) {
               return Text('Erro ao carregar nome do pet');
             }
-
             return Text(snapshot.data ?? 'Nome do pet');
           },
         ),
@@ -140,22 +130,21 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                   fontWeight: FontWeight.bold,
                   color: Colors.teal),
             ),
-            FutureBuilder<Map<String, Comment>>(
-              future: _commentsFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
+            Consumer<CommentProvider>(
+              builder: (context, commentProvider, child) {
+                if (commentProvider.loading) {
                   return Center(child: CircularProgressIndicator());
                 }
 
-                if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                if (commentProvider.comments.isEmpty) {
                   return Center(child: Text('Nenhum comentário encontrado.'));
                 }
 
-                if (snapshot.hasError) {
-                  return Center(child: Text('Erro ao carregar comentários.'));
+                if (commentProvider.error.isNotEmpty) {
+                  return Center(child: Text(commentProvider.error));
                 }
 
-                final comments = snapshot.data!;
+                final comments = commentProvider.comments;
 
                 return Expanded(
                   child: ListView.builder(
@@ -163,13 +152,10 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                     itemBuilder: (context, index) {
                       final comment = comments.values.toList()[index];
 
-                      // Chama o método para buscar o nome do usuário
                       return FutureBuilder<String>(
-                        future: UserService.getUserNameById(comment
-                            .userId), // Passando o ID do usuário do comentário
+                        future: UserService.getUserNameById(comment.userId),
                         builder: (context, userSnapshot) {
-                          if (userSnapshot.connectionState ==
-                              ConnectionState.waiting) {
+                          if (userSnapshot.connectionState == ConnectionState.waiting) {
                             return ListTile(
                               leading: Icon(Icons.person, color: Colors.teal),
                               title: Text('...'),
@@ -185,14 +171,12 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                             );
                           }
 
-                          String userName =
-                              userSnapshot.data ?? 'Usuário desconhecido';
+                          String userName = userSnapshot.data ?? 'Usuário desconhecido';
 
                           return ListTile(
                             leading: Icon(Icons.person, color: Colors.teal),
-                            title: Text(userName), // Nome do usuário
-                            subtitle:
-                                Text(comment.content), // Conteúdo do comentário
+                            title: Text(userName),
+                            subtitle: Text(comment.content),
                           );
                         },
                       );
@@ -207,8 +191,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                 Expanded(
                   child: TextField(
                     controller: _commentController,
-                    enabled: userProvider
-                        .isLoggedIn, // Desabilita o campo de texto se não estiver logado
+                    enabled: userProvider.isLoggedIn,
                     decoration: InputDecoration(
                       hintText: 'Adicione um comentário...',
                       border: OutlineInputBorder(
@@ -219,9 +202,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                 ),
                 SizedBox(width: 8),
                 ElevatedButton(
-                  onPressed: userProvider.isLoggedIn
-                      ? _addComment
-                      : null, // Desabilita o botão se não estiver logado
+                  onPressed: userProvider.isLoggedIn ? _addComment : null,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.teal,
                   ),
@@ -234,8 +215,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                 padding: const EdgeInsets.only(top: 16.0),
                 child: Text(
                   'Você precisa estar logado para adicionar um comentário.',
-                  style:
-                      TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+                  style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
                 ),
               ),
           ],

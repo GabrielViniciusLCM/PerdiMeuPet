@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:perdi_meu_pet/domain/provider/comment_provider.dart';
 import 'package:perdi_meu_pet/screens/profile_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -25,17 +26,17 @@ class FindMyPetApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => UserProvider()),
+        ChangeNotifierProvider(create: (context) => CommentProvider()),
       ],
       child: MaterialApp(
-        theme: ThemeData(
-          primarySwatch: Colors.teal,
-          primaryColor: Colors.teal,
-        ),
-        home: HomeScreen(),
-        routes: {
-          AppRoutes.PROFILE: (ctx) => ProfileScreen(),
-        }
-      ),
+          theme: ThemeData(
+            primarySwatch: Colors.teal,
+            primaryColor: Colors.teal,
+          ),
+          home: HomeScreen(),
+          routes: {
+            AppRoutes.PROFILE: (ctx) => ProfileScreen(),
+          }),
     );
   }
 }
