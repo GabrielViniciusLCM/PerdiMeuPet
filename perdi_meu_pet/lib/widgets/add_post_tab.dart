@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:perdi_meu_pet/domain/service/pet_service.dart';
+import 'package:perdi_meu_pet/domain/service/post_service.dart';
 import 'package:provider/provider.dart';
 import '../domain/model/pet.dart';
 import '../domain/model/post.dart';
@@ -38,10 +39,7 @@ class _AddPostTabState extends State<AddPostTab> {
         userId: userProvider.userId,
         petId: petMapEntry.key,
       );
-
-      setState(() {
-        mockPosts.add(newPost); // Adiciona o novo post à lista mockada de posts
-      });
+      final postMap = await PostService.addPost(newPost);
 
       // Limpa os campos de texto e a URL da imagem
       _nomeController.clear();
