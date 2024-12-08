@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:perdi_meu_pet/domain/model/post.dart';
 import 'package:perdi_meu_pet/domain/provider/post_provider.dart';
-import 'package:perdi_meu_pet/domain/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'post_widget.dart';
 import '../screens/post_detail_screen.dart'; // Importa a tela de detalhes
