@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:perdi_meu_pet/domain/model/post.dart';
 import 'package:perdi_meu_pet/domain/provider/post_provider.dart';
+import 'package:perdi_meu_pet/domain/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'post_widget.dart';
 import '../screens/post_detail_screen.dart'; // Importa a tela de detalhes
@@ -10,6 +11,7 @@ class FavoritesTab extends StatelessWidget {
   Widget build(BuildContext context) {
     // Usando o FutureBuilder para lidar com a busca assíncrona de postagens
     return FutureBuilder<Map<String, Post>>(
+      // future: Provider.of<PostProvider>(context, listen: false).getFavoritePosts(),
       future: Provider.of<PostProvider>(context, listen: false).getFavoritePosts(),
       builder: (context, snapshot) {
         // Checa o estado da conexão

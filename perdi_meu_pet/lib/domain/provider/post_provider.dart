@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../model/post.dart';
 import '../service/post_service.dart';
+import '../service/user_service.dart';
 import 'user_provider.dart';
 
 class PostProvider with ChangeNotifier {
@@ -56,11 +57,9 @@ class PostProvider with ChangeNotifier {
   Future<Map<String, Post>> getFavoritePosts() async {
     try {
       final userId = this.userProvider.userId;
-      final postsIds = await PostService.getFavoritePosts(userId);
-      final posts = await PostService.getPosts();
-      final favoritePosts = posts.entries.where((element) => postsIds.contains(element.key));
+      final posts = await UserService.getFavoritePosts(userId);
       this._favoritePosts.clear();
-      this._favoritePosts.addEntries(favoritePosts);
+      this._favoritePosts.addAll(posts);
       return this.favoritePosts;
     } catch (error) {
       rethrow;

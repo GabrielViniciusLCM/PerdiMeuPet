@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:perdi_meu_pet/domain/model/post.dart';
+import 'package:perdi_meu_pet/domain/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 import '../domain/provider/post_provider.dart';
 import '../widgets/post_widget.dart';
@@ -44,6 +45,8 @@ class FeedTab extends StatelessWidget {
                 postMapEntry: postMapEntry,
                 onFavoriteToggled: () {
                   // Atualiza a interface ao favoritar/desfavoritar um post
+                  Provider.of<UserProvider>(context, listen: false)
+                      .toggleFavorite(postMapEntry.key);
                   (context as Element)
                       .markNeedsBuild(); // Reconstroi a interface
                 },

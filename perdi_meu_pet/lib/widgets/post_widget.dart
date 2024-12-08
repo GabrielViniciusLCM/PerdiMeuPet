@@ -19,18 +19,15 @@ class PostWidget extends StatefulWidget {
 }
 
 class _PostWidgetState extends State<PostWidget> {
-  void _toggleFavorite() {
-    setState(() {
-      // widget.post.isFavorite = !widget.post.isFavorite;
-    });
-    widget
-        .onFavoriteToggled(); // Callback notifica o pai quando o favorito muda
+  void _toggleFavorite() async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    await userProvider.toggleFavorite(widget.postMapEntry.key);
   }
 
   @override
   Widget build(BuildContext context) {
     final usuarioProvider = Provider.of<UserProvider>(context);
-
+    final isFavorite = usuarioProvider.isPostFavorite(widget.postMapEntry.key);
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
       decoration: BoxDecoration(
@@ -129,10 +126,10 @@ class _PostWidgetState extends State<PostWidget> {
                       if (usuarioProvider.isLoggedIn)
                         IconButton(
                           icon: Icon(
-                            // widget.post.isFavorite
-                            //     ? Icons.favorite
-                            //     : Icons.favorite_border,
-                            Icons.favorite_border,
+                            isFavorite
+                                ? Icons.favorite
+                                : Icons.favorite_border,
+                            // Icons.favorite_border,
                             color: Colors.red,
                           ),
                           onPressed: _toggleFavorite,
@@ -148,3 +145,4 @@ class _PostWidgetState extends State<PostWidget> {
     );
   }
 }
+

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:perdi_meu_pet/domain/service/user_service.dart';
 import '../../utils/urls.dart';
 import '../model/post.dart';
 
@@ -15,16 +16,6 @@ class PostService {
       return MapEntry(data['name'], post);
     } else {
       throw Exception('Erro ao cadastrar post');
-    }
-  }
-
-  static Future<List<String>> getFavoritePosts(String userId) async {
-    final response = await http.get(Uri.parse('${Urls.BASE_URL}/users/$userId/favorites.json'));
-    if (response.statusCode == 200) {
-      final List<String> data = json.decode(response.body).cast<String>();
-      return data;
-    } else {
-      throw Exception('Erro ao buscar posts favoritos');
     }
   }
 
