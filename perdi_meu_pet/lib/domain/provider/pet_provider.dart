@@ -46,4 +46,13 @@ class PetProvider with ChangeNotifier {
     }
   }
 
+  Future<String> getPetNameById(String id) async {
+    try {
+      final pet = await PetService.getPetById(id);
+      return pet.value.name;
+    } catch (error) {
+      rethrow;
+    }
+  }
+
 }

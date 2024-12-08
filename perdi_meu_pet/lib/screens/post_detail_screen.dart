@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:perdi_meu_pet/domain/model/comment.dart';
+import 'package:perdi_meu_pet/domain/provider/pet_provider.dart';
 import 'package:perdi_meu_pet/domain/provider/user_provider.dart';
-import 'package:perdi_meu_pet/domain/service/pet_service.dart';
 import 'package:perdi_meu_pet/domain/service/user_service.dart';
 import 'package:perdi_meu_pet/domain/provider/comment_provider.dart';
 import 'package:provider/provider.dart';
 import '../domain/model/post.dart';
 
 class PostDetailScreen extends StatefulWidget {
-  final Post post;
+  final MapEntry<String, Post> postMapEntry;
 
-  PostDetailScreen({required this.post});
+  PostDetailScreen({required this.postMapEntry});
 
   @override
   _PostDetailScreenState createState() => _PostDetailScreenState();
@@ -25,7 +25,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
     // Carregar os comentários ao inicializar a tela
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final commentProvider = Provider.of<CommentProvider>(context, listen: false);
-      commentProvider.loadComments(widget.post.id);
+      commentProvider.loadComments(widget.postMapEntry.key);
     });
   }
 
@@ -36,7 +36,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
 
     if (_commentController.text.isNotEmpty && userProvider.isLoggedIn) {
       Comment newComment = Comment(
-        postId: widget.post.id,
+        postId: widget.postMapEntry.key,
         content: _commentController.text,
         userId: userProvider.userId,
       );
@@ -66,7 +66,8 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
     return Scaffold(
       appBar: AppBar(
         title: FutureBuilder<String>(
-          future: PetService.getPetNameById(widget.post.petId),
+          // future: PetService.getPetNameById(widget.post.petId),
+          future: Provider.of<PetProvider>(context).getPetNameById(widget.postMapEntry.value.petId),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Text('...');
@@ -88,7 +89,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10.0),
                 child: Image.network(
-                  widget.post.imageUrl,
+                  widget.postMapEntry.value.imageUrl,
                   fit: BoxFit.cover,
                   height: 200,
                   width: double.infinity,
@@ -105,7 +106,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
             ),
             SizedBox(height: 8),
             Text(
-              widget.post.descricao,
+             widget.postMapEntry.value.descricao,
               style: TextStyle(fontSize: 16),
             ),
             SizedBox(height: 16),
@@ -118,7 +119,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
             ),
             SizedBox(height: 8),
             Text(
-              widget.post.localizacao,
+             widget.postMapEntry.value.localizacao,
               style: TextStyle(fontSize: 16),
             ),
             Spacer(),
@@ -135,11 +136,9 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                 if (commentProvider.loading) {
                   return Center(child: CircularProgressIndicator());
                 }
-
                 if (commentProvider.comments.isEmpty) {
                   return Center(child: Text('Nenhum comentário encontrado.'));
                 }
-
                 if (commentProvider.error.isNotEmpty) {
                   return Center(child: Text(commentProvider.error));
                 }

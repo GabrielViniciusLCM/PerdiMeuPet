@@ -20,15 +20,14 @@ class FindMyPetApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => UserProvider()),
-        ChangeNotifierProvider(create: (context) => CommentProvider()),
-                ChangeNotifierProvider(create: (_) => UserProvider()), 
+        ChangeNotifierProvider(create: (context) => CommentProvider()), 
         ChangeNotifierProxyProvider<UserProvider, PetProvider>(
           create: (_) => PetProvider(UserProvider()),
           update: (_, userProvider, previousPetProvider) => PetProvider(userProvider),
         ),
-        ChangeNotifierProxyProvider(
-          create: (_) => PostProvider(), 
-          update: (_, userProvider, previousPostProvider) => PostProvider(),
+        ChangeNotifierProxyProvider<UserProvider, PostProvider>(
+          create: (_) => PostProvider(UserProvider()), 
+          update: (_, userProvider, previousPostProvider) => PostProvider(userProvider),
         ),
       ],
       child: MaterialApp(

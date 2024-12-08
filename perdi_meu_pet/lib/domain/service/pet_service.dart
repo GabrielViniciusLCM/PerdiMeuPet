@@ -22,6 +22,19 @@ class PetService {
     }
   }
 
+  static Future<MapEntry<String, Pet>> getPetById(String id) async {
+    final response = await http.get(Uri.parse('${Urls.BASE_URL}/pets/$id.json'));
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(response.body);
+      print(data);
+      final Pet pet = Pet.fromJson(data);
+      final MapEntry<String, Pet> petMap = MapEntry(id, pet);
+      return petMap;
+    } else {
+      throw Exception('Erro ao buscar pet');
+    }
+  }
+
   // Don't need the userId parameter, because the user is already logged in
   // and the added pet will be associated with the logged in user
   static Future<MapEntry<String, Pet>> addPet(Pet pet) async {

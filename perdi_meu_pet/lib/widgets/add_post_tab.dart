@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import '../domain/model/pet.dart';
 import '../domain/model/post.dart';
 import '../domain/provider/user_provider.dart';
-import '../screens/home_screen.dart';
 
 class AddPostTab extends StatefulWidget {
   @override
