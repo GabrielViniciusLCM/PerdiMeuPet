@@ -14,16 +14,11 @@ class FeedTab extends StatelessWidget {
       builder: (context, snapshot) {
         // Checa estado da conexão
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-              child: CircularProgressIndicator()); // Indicador de carregamento
+          return Center(child: CircularProgressIndicator()); // Indicador de carregamento
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Center(
-              child: Text(
-                  'Nenhum post encontrado.')); // Exibe mensagem quando não houver dados
+          return Center(child: Text('Nenhum post encontrado.')); // Exibe mensagem quando não houver dados
         } else if (snapshot.hasError) {
-          return Center(
-              child: Text(
-                  'Erro: ${snapshot.error}')); // Exibe erro se a busca falhar
+          return Center(child: Text('Erro: ${snapshot.error}')); // Exibe erro se a busca falhar
         }
 
         // Extrai as postagens do mapa retornado
