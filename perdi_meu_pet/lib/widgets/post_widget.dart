@@ -93,8 +93,7 @@ class _PostWidgetState extends State<PostWidget> {
                         );
                       }
 
-                      String petName = snapshot.data ??
-                          'Nome do pet'; // Se não encontrar, exibe "Nome do pet"
+                      String petName = snapshot.data ?? 'Nome do pet'; // Se não encontrar, exibe "Nome do pet"
                       return Text(
                         petName,
                         style: TextStyle(
