@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:perdi_meu_pet/domain/provider/user_provider.dart';
+import 'package:perdi_meu_pet/domain/service/post_service.dart';
 
 import '../model/pet.dart';
 import '../service/pet_service.dart';
@@ -25,6 +26,7 @@ class PetProvider with ChangeNotifier {
 
   Future<void> deletePet(String key) async {
     try {
+      await PostService.deletePostsByPetId(key, this.userProvider.userId);
       await PetService.deletePet(key);
       this._pets.remove(key);
       notifyListeners();

@@ -209,14 +209,14 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                 ),
               ],
             ),
-            if (!userProvider.isLoggedIn)
-              Padding(
-                padding: const EdgeInsets.only(top: 16.0),
-                child: Text(
-                  'Você precisa estar logado para adicionar um comentário.',
-                  style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
-                ),
-              ),
+            // if (!userProvider.isLoggedIn)
+            //   Padding(
+            //     padding: const EdgeInsets.only(top: 16.0),
+            //     child: Text(
+            //       'Você precisa estar logado para adicionar um comentário.',
+            //       style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+            //     ),
+            //   ),
           ],
         ),
       ),

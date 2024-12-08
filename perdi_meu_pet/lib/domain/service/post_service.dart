@@ -70,5 +70,18 @@ class PostService {
     }
   }
 
+  static Future<void> deletePostsByPetId(String key, String userId) async {
+    // final response = await http.get(Uri.parse('${Urls.BASE_URL}/posts.json'));
+    final posts = await PostService.getPostsByUser(userId);
+    final postToDelete = posts.entries.where((element) => element.value.petId == key);
+    try {
+      for (var post in postToDelete) {
+        await http.delete(Uri.parse('${Urls.BASE_URL}/posts/${post.key}.json'));
+      }
+    } catch (error) {
+      throw Exception('Erro ao deletar posts');
+    }
+  }
+
   
 }

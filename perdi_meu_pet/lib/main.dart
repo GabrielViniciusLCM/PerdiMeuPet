@@ -8,6 +8,7 @@ import '../screens/home_screen.dart';
 import 'domain/provider/pet_provider.dart';
 import 'domain/provider/post_provider.dart';
 import 'domain/provider/user_provider.dart';
+import 'screens/my_pet_screen.dart';
 void main() {
   runApp(const FindMyPetApp());
 }
@@ -38,7 +39,7 @@ class FindMyPetApp extends StatelessWidget {
         home: HomeScreen(),
         routes: {
           AppRoutes.PROFILE: (ctx) => ProfileScreen(),
-          // AppRoutes.MY_PETS: (ctx) => MyPetsScreen(),
+          AppRoutes.MY_PETS: (ctx) => MyPetsScreen(),
         }
       ),
     );

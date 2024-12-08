@@ -43,8 +43,7 @@ class FeedTab extends StatelessWidget {
               child: PostWidget(
                 postMapEntry: postMapEntry,
                 onFavoriteToggled: () {
-                  // Atualiza a UI quando o status de favorito do post muda
-                  // Você pode adicionar lógica aqui para salvar no banco de dados ou em estado local
+                  // Atualiza a interface ao favoritar/desfavoritar um post
                   (context as Element)
                       .markNeedsBuild(); // Reconstroi a interface
                 },
