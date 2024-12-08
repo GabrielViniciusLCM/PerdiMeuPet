@@ -1,6 +1,5 @@
 // ignore_for_file: unnecessary_this
 class Post {
-  // String id;
   final String descricao; // descrição do post
   final String localizacao; // localização do pet, onde foi visto pela última vez
   final String imageUrl; // url da imagem do pet

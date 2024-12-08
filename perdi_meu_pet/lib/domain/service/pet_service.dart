@@ -26,7 +26,6 @@ class PetService {
     final response = await http.get(Uri.parse('${Urls.BASE_URL}/pets/$id.json'));
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
-      print(data);
       final Pet pet = Pet.fromJson(data);
       final MapEntry<String, Pet> petMap = MapEntry(id, pet);
       return petMap;
