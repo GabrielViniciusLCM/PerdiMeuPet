@@ -5,16 +5,11 @@ import 'package:provider/provider.dart';
 
 import '/utils/app_routes.dart';
 import '../screens/home_screen.dart';
+import 'domain/provider/pet_provider.dart';
+import 'domain/provider/post_provider.dart';
 import 'domain/provider/user_provider.dart';
-// import './tabs/ProfileTab.dart';
-
+import 'screens/my_pet_screen.dart';
 void main() {
-  // runApp(
-  //   ChangeNotifierProvider(
-  //     create: (context) => UsuarioProvider(),
-  //     child: FindMyPetApp(),
-  //   ),
-  // );
   runApp(const FindMyPetApp());
 }
 
@@ -25,18 +20,28 @@ class FindMyPetApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => UserProvider()),
-        ChangeNotifierProvider(create: (context) => CommentProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (context) => CommentProvider()), 
+        ChangeNotifierProxyProvider<UserProvider, PetProvider>(
+          create: (_) => PetProvider(UserProvider()),
+          update: (_, userProvider, previousPetProvider) => PetProvider(userProvider),
+        ),
+        ChangeNotifierProxyProvider<UserProvider, PostProvider>(
+          create: (_) => PostProvider(UserProvider()), 
+          update: (_, userProvider, previousPostProvider) => PostProvider(userProvider),
+        ),
       ],
       child: MaterialApp(
-          theme: ThemeData(
-            primarySwatch: Colors.teal,
-            primaryColor: Colors.teal,
-          ),
-          home: HomeScreen(),
-          routes: {
-            AppRoutes.PROFILE: (ctx) => ProfileScreen(),
-          }),
+        theme: ThemeData(
+          primarySwatch: Colors.teal,
+          primaryColor: Colors.teal,
+        ),
+        home: HomeScreen(),
+        routes: {
+          AppRoutes.PROFILE: (ctx) => ProfileScreen(),
+          AppRoutes.MY_PETS: (ctx) => MyPetsScreen(),
+        }
+      ),
     );
   }
 }
