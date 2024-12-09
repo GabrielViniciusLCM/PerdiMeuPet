@@ -40,4 +40,16 @@ class CommentService {
       throw Exception('Erro ao buscar comentários');
     }
   }
+
+  // Método para deletar comentário por id do post
+  static Future<void> deleteCommentsByPostId(String id) async {
+    final posts = await getCommentsByPostId(id);
+    final List<String> commentKeys = posts.keys.toList();
+    commentKeys.forEach((commentKey) async {
+      final response = await http.delete(Uri.parse('${Urls.BASE_URL}/comments/$commentKey.json'));
+      if (response.statusCode != 200) {
+        throw Exception('Erro ao deletar comentário');
+      }
+    });
+  }
 }

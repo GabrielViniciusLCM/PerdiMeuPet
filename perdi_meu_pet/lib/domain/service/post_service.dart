@@ -61,6 +61,22 @@ class PostService {
     }
   }
 
+  static Future<Map<String, Post>> getPostsByPetId(String petId) async {
+    final response = await http.get(Uri.parse('${Urls.BASE_URL}/posts.json'));
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(response.body);
+      final Map<String, Post> postMap = {};
+      data.forEach((key, value) {
+        final post = Post.fromJson(value);
+        if (post.petId == petId) {
+          postMap[key] = post;
+        }
+      });
+      return postMap;
+    } else {
+      throw Exception('Erro ao buscar posts');
+    }
+  }
   static Future<void> deletePostsByPetId(String key, String userId) async {
     // final response = await http.get(Uri.parse('${Urls.BASE_URL}/posts.json'));
     final posts = await PostService.getPostsByUser(userId);
