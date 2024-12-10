@@ -1,8 +1,11 @@
 import 'dart:convert';
 
 import '../../utils/urls.dart';
+import '../model/post.dart';
 import '../model/user.dart';
 import 'package:http/http.dart' as http;
+
+import 'post_service.dart';
 
 class UserService {
   static Future<Map<String, User>> addUser(User user) async {
@@ -19,8 +22,28 @@ class UserService {
       throw Exception('Erro ao cadastrar usuário');
     }
   }
+  
+  // Função para buscar o nome do usuário com base no ID
+  static Future<String> getUserNameById(String userId) async {
+    try {
+      final userMapEntry = await UserService.getUserById(userId);
+      User user = userMapEntry.value;
+      return user.username;
+    } catch (e) {
+      throw Exception('Erro ao buscar nome do usuário: $e');
+    }
+  }
 
-  static Future<Map<String, User>> getUsers() async {
+  static Future<MapEntry<String, User>> getUserByEmail(String email) async {
+    final users = await _getUsers();
+
+    return users.entries.firstWhere(
+      (entry) => entry.value.email == email,
+      orElse: () => throw Exception('Usuário não encontrado'),
+    );
+  }
+
+  static Future<Map<String, User>> _getUsers() async {
     final response = await http.get(Uri.parse('${Urls.BASE_URL}/users.json'));
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
@@ -34,59 +57,43 @@ class UserService {
     }
   }
 
-  static Future<Map<String, User>> getUserById(String id) async {
-    final response =
-        await http.get(Uri.parse('${Urls.BASE_URL}/users/$id.json'));
+  static Future<MapEntry<String, User>> getUserById(String id) async {
+    final response = await http.get(Uri.parse('${Urls.BASE_URL}/users/$id.json'));
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
       // this._userMap[id] = User.fromJson(data
-      final Map<String, User> userMap = {id: User.fromJson(data)};
+      final userMapEntry = MapEntry(id, User.fromJson(data));
 
-      return userMap;
+      return userMapEntry;
     } else {
       throw Exception('Erro ao buscar usuário');
     }
   }
 
-  // Função para buscar o nome do usuário com base no ID
-  static Future<String> getUserNameById(String userId) async {
-    try {
-      Map<String, User> userMap = await UserService.getUserById(userId);
-      User user = userMap[userId]!;
+  static Future<MapEntry<String, User>> updateUser(MapEntry<String, User> userMapEntry) async {
+    final response = await http.put(
+      Uri.parse('${Urls.BASE_URL}/users/${userMapEntry.key}.json'),
+      body: json.encode(userMapEntry.value),
+    );
 
-      return user.username;
-    } catch (e) {
-      throw Exception('Erro ao buscar nome do usuário: $e');
+    if (response.statusCode == 200) {
+      return userMapEntry;
+    } else {
+      throw Exception('Erro ao atualizar usuário');
     }
   }
 
-  // static Future<MapEntry<String, User>> getUserByUsername (String username) async {
-  //   final users = await getUsers();
+  static Future<Map<String, Post>> getFavoritePosts(String userId) async {
+    final userMapEntry = await UserService.getUserById(userId);
+    final user = userMapEntry.value;
+    final favoritePosts = user.favoritePosts;
 
-  //   return users.entries.firstWhere(
-  //     (entry) => entry.value.username == username,
-  //     orElse: () => throw Exception('Usuário não encontrado'),
-  //   );
-  // }
-
-  static Future<MapEntry<String, User>> getUserByEmail(String email) async {
-    final users = await getUsers();
-
-    return users.entries.firstWhere(
-      (entry) => entry.value.email == email,
-      orElse: () => throw Exception('Usuário não encontrado'),
-    );
+    final Map<String, Post> postMap = {};
+    for (final postId in favoritePosts) {
+      final postMapEntry = await PostService.getPostById(postId);
+      postMap[postMapEntry.key] = postMapEntry.value;
+    }
+    return postMap;
   }
-
-  // static Future<void> updateUser(String id, User user) async {
-  //   final response = await http.put(
-  //     Uri.parse('${Urls.BASE_URL}/users/$id.json'),
-  //     body: json.encode(user),
-  //   );
-
-  //   if (response.statusCode != 200) {
-  //     throw Exception('Erro ao atualizar usuário');
-  //   }
-  // }
 }

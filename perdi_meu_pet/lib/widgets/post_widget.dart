@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:perdi_meu_pet/domain/service/pet_service.dart';
 import '../domain/model/post.dart';
+import '../domain/provider/pet_provider.dart';
 import '../domain/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 
 class PostWidget extends StatefulWidget {
-  final Post post;
+  final MapEntry<String, Post> postMapEntry;
   final VoidCallback onFavoriteToggled; // Callback para notificar o pai
 
   const PostWidget({
     Key? key,
-    required this.post,
+    required this.postMapEntry,
     required this.onFavoriteToggled,
   }) : super(key: key);
 
@@ -19,18 +19,15 @@ class PostWidget extends StatefulWidget {
 }
 
 class _PostWidgetState extends State<PostWidget> {
-  void _toggleFavorite() {
-    setState(() {
-      // widget.post.isFavorite = !widget.post.isFavorite;
-    });
-    widget
-        .onFavoriteToggled(); // Callback notifica o pai quando o favorito muda
+  void _toggleFavorite() async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    await userProvider.toggleFavorite(widget.postMapEntry.key);
   }
 
   @override
   Widget build(BuildContext context) {
     final usuarioProvider = Provider.of<UserProvider>(context);
-
+    final isFavorite = usuarioProvider.isPostFavorite(widget.postMapEntry.key);
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
       decoration: BoxDecoration(
@@ -55,7 +52,7 @@ class _PostWidgetState extends State<PostWidget> {
             ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
               child: Image.network(
-                widget.post.imageUrl,
+                widget.postMapEntry.value.imageUrl,
                 width: 80,
                 height: 80,
                 fit: BoxFit.cover,
@@ -69,7 +66,7 @@ class _PostWidgetState extends State<PostWidget> {
                 children: [
                   // Usando FutureBuilder para buscar o nome do pet
                   FutureBuilder<String>(
-                    future: PetService.getPetNameById(widget.post.petId),
+                    future: Provider.of<PetProvider>(context).getPetNameById(widget.postMapEntry.value.petId),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Text(
@@ -93,8 +90,7 @@ class _PostWidgetState extends State<PostWidget> {
                         );
                       }
 
-                      String petName = snapshot.data ??
-                          'Nome do pet'; // Se não encontrar, exibe "Nome do pet"
+                      String petName = snapshot.data ?? 'Nome do pet'; // Se não encontrar, exibe "Nome do pet"
                       return Text(
                         petName,
                         style: TextStyle(
@@ -107,7 +103,7 @@ class _PostWidgetState extends State<PostWidget> {
                   ),
                   SizedBox(height: 8),
                   Text(
-                    widget.post.descricao,
+                   widget.postMapEntry.value.descricao,
                     style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -120,7 +116,7 @@ class _PostWidgetState extends State<PostWidget> {
                       // Text(widget.post.localizacao),
                       Expanded(
                         child: Text(
-                          widget.post.localizacao,
+                          widget.postMapEntry.value.localizacao,
                           style: TextStyle(color: Colors.grey[600]),
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -130,10 +126,10 @@ class _PostWidgetState extends State<PostWidget> {
                       if (usuarioProvider.isLoggedIn)
                         IconButton(
                           icon: Icon(
-                            // widget.post.isFavorite
-                            //     ? Icons.favorite
-                            //     : Icons.favorite_border,
-                            Icons.favorite_border,
+                            isFavorite
+                                ? Icons.favorite
+                                : Icons.favorite_border,
+                            // Icons.favorite_border,
                             color: Colors.red,
                           ),
                           onPressed: _toggleFavorite,
@@ -149,3 +145,4 @@ class _PostWidgetState extends State<PostWidget> {
     );
   }
 }
+

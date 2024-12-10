@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:perdi_meu_pet/domain/model/comment.dart';
 import 'package:perdi_meu_pet/domain/service/comment_service.dart';

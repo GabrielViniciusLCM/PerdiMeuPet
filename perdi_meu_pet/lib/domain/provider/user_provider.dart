@@ -26,6 +26,38 @@ class UserProvider with ChangeNotifier {
       rethrow; // Propaga o erro para ser tratado onde o método for chamado
     }
   }
+
+  Future<void> _removeFavoritePost(String postId) async {
+    try {
+      this._user.value.favoritePosts.remove(postId);
+      await UserService.updateUser(this._user);
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<void> _addFavoritePost(String postId) async {
+    try {
+      this._user.value.favoritePosts.add(postId);
+      await UserService.updateUser(this._user);
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<void> toggleFavorite(String postId) async {
+    if (this._user.value.favoritePosts.contains(postId)) {
+      await this._removeFavoritePost(postId);
+      notifyListeners();  
+    } else {
+      await this._addFavoritePost(postId);
+      notifyListeners();
+    }
+  }
+
+  bool isPostFavorite(String postId) {
+    return this._user.value.favoritePosts.contains(postId);
+  }
   
   void logout() {
     this._user = MapEntry('', User(username: 'username', email: 'user@email.com', phone: '84999999999', password: 'password'));
