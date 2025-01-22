@@ -22,6 +22,11 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Precisamos de acesso à biblioteca para selecionar imagens.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Precisamos de acesso à câmera para tirar fotos.</string>
+
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
